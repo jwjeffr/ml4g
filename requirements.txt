@@ -1,0 +1,11 @@
+numpy~=2.2.6
+scikit-learn~=1.7.2
+git+https://github.com/jwjeffr/tce-lib.git@e379500
+mace-torch~=0.3.14
+ase~=3.25.0
+matplotlib~=3.10.6
+cowley-sro-parameters~=2.0.0
+ipywidgets~=8.1.7
+ipython~=9.6.0
+ovito~=3.13.1
+cowley_sro_parameters~=2.0.0
