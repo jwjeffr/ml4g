@@ -15,7 +15,7 @@ python download-dataset.py
 python process.py
 ```
 
-Visualize the dataset (need to use `xvfb-run` on Palmetto run OVITO in headless mode):
+Visualize the dataset (need to use `xvfb-run` on Palmetto to run OVITO in headless mode):
 
 ```bash
 xvfb-run python dataset-vis.py
@@ -28,10 +28,11 @@ python train-ce-model.py
 python train-mace-model.py
 ```
 
-Compute cross-validation info:
+Compute cross-validation info and loss curve for MACE:
 
 ```bash
 python cross-val.py
+python mace-fitting-epochs.py
 ```
 
 Deploy the models in a Metropolis-Hastings simulation using a script:
