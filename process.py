@@ -12,6 +12,9 @@ random.seed(RANDOM_SEED)
 
 
 def add_dummy_forces(extxyz_path: Path):
+
+    # mace expects forces, so just add zero forces
+    # this is fine with the tce-lib datasets, which are minimized, i.e. have zero total force
     atoms_list = read(extxyz_path, ":")
     modified = False
     for atoms in atoms_list:
@@ -33,6 +36,8 @@ def add_dummy_forces(extxyz_path: Path):
 
 
 def split_and_write_dataset(dataset_path: Path):
+
+    # split into train test and validation
 
     configurations = read(dataset_path, index=":", format="extxyz")
     print(configurations)

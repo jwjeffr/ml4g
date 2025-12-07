@@ -20,6 +20,12 @@ SEED = 42
 
 
 def train_mace_on_dataset(dataset_path: Path):
+
+    """
+    train mace on the saved dataset
+    mace mostly uses a CLI for this, so call a subprocess
+    """
+    
     train_file = dataset_path / "train.extxyz"
     valid_file = dataset_path / "valid.extxyz"
     test_file = dataset_path / "test.extxyz"

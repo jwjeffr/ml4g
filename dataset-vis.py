@@ -14,6 +14,8 @@ import matplotlib.pyplot as plt
 
 def main():
 
+    # load in all configurations, we'll visualize these with ovito
+    # each io.read call returns a list of Atoms objects, so just sum them
     configurations = (
         io.read("dataset/test.extxyz", index=":", format="extxyz") +
         io.read("dataset/train.extxyz", index=":", format="extxyz") +
@@ -22,11 +24,14 @@ def main():
 
     num_configs = len(configurations)
 
+    # generate points using Poisson sampling, makes sure there is a specific amount of space between each configuration
     engine = qmc.PoissonDisk(d=2, radius=0.01, rng=np.random.default_rng(seed=0))
     sample = engine.random(num_configs)
     sample *= 2000.0
     points = np.column_stack((*sample.T, np.zeros(num_configs)))
 
+    # convert ase configurations to ovito objects and then add them to the scene according to the sampled points above
+    # these are defined by Rodrigues vectors
     axis = np.array([1, -1, 0])
     axis = axis / np.linalg.norm(axis) * 30 * np.pi / 180
     pipeline = None
@@ -37,6 +42,7 @@ def main():
     if not pipeline:
         raise ValueError
 
+    # initialize the viewport and render it
     vp = Viewport()
     legend = ColorLegendOverlay(
         property="particles/Particle Type",
@@ -52,11 +58,11 @@ def main():
     vp.zoom_all(size)
     vp.render_image(filename="figures/visualized.png", size=size)
 
+    # plot a histogram of the energies
     energies = np.fromiter(
         (atoms.get_potential_energy() / len(atoms) for atoms in configurations),
         dtype=float
     )
-
     plt.hist(energies, linewidth=1.0, zorder=6, edgecolor="black")
     plt.grid()
     plt.xlabel("energy (eV / atom)")

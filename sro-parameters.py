@@ -8,6 +8,8 @@ import matplotlib.pyplot as plt
 
 def main():
 
+    # compute the Cowley short range order parameters for both simulations
+
     pipelines = {
         "CE": io.import_file("ce-trajectory/frame_*.xyz"),
         "MACE": io.import_file("mace-trajectory/frame_*.xyz")

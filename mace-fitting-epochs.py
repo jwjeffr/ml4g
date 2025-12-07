@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 
 def main():
 
+    # visualize losses from mace training
     losses = []
     rmses_per_atom = []
     with open("mace-model/dataset_run-42_train.txt", "r") as file:

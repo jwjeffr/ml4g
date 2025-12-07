@@ -20,11 +20,18 @@ def equilibrate(
     rng: Optional[np.random.Generator] = None,
 ) -> list[Atoms]:
 
+    """
+    simulation routine to minimize total energy using Metropolis-Hastings
+    """
+
+    # initialize trajectory and current configurations
+    # we'll make swaps against the current configuration, so good to have an intermediate for it
     trajectory = []
     current_configuration = initial_configuration.copy()
     current_configuration.calc = calculator_constructor()
     for step in range(num_steps):
 
+        # save a config every couple of steps
         if step % save_every == 0:
             print(f"simulation {step / num_steps:.2%} done")
             current_configuration.calc = SinglePointCalculator(current_configuration, energy=current_configuration.get_potential_energy())
@@ -49,6 +56,7 @@ def equilibrate(
 
 def main():
 
+    # define calculator constructors so each Atoms instance has its own Calculator instance
     ce_model = ClusterExpansion.load(Path("ce-model") / "IrPdPtRhRu.pkl")
     def ce_constructor() -> TCECalculator:
 
@@ -70,6 +78,7 @@ def main():
             forces_key="forces",
         )
 
+    # equilibrate both at T = 1000 K (beta = 11.6 1/eV)
     rng = np.random.default_rng(seed=0)
     beta = 11.6
     initial_configuration = build.bulk(

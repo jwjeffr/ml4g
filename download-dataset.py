@@ -6,6 +6,7 @@ from ase import io
 
 def main():
 
+    # download the dataset from tce-lib
     dataset = Dataset.from_dir(Path("noble_hea_surrogate"))
     io.write("dataset/noble-hea-surrogate.xyz", dataset.configurations, format="extxyz")
 
